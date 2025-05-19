@@ -27,11 +27,6 @@ public class UserController {
         return service.getAllUser();
     }
 
-    @GetMapping("/sample")
-    public User sampleCreator(){
-        return service.sampUser();
-    }
-
     @PostMapping("/new")
     public User newUser(@RequestBody User user) {    
         return service.createUser(user);

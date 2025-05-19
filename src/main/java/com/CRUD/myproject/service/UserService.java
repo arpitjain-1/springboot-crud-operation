@@ -10,22 +10,26 @@ import com.CRUD.myproject.model.User;
 public class UserService {
 
     private List<User> userList = new ArrayList<>();
-    
-    public User sampUser() {
-        // Sample user data
-        User user = new User(1, "Arpit", "a@a.com");
+
+    UserService(){
+        User user = new User(0, "Arpit", "a@a.com");
         userList.add(user);
-        return user;
     }
 
     public List<User> getAllUser(){
         return userList;
-    }   
-    
+    }
+
     public User createUser(User user){
-        userList.add(user);
+        int index = user.getId();
+        while (userList.size() <= index) {
+            userList.add(null);
+        }
+
+        userList.set(index, user);
         return user;
     }
+
 
     public User getCurrentUser(int id){
         User u = userList.get(id);
@@ -33,8 +37,8 @@ public class UserService {
     }
 
     public User updateCurrentUser(int id, User user){
-        User u = userList.set(id, user);
-        return u;
+        userList.set(id, user);
+        return user;
     }
 
     public boolean deleteCurrentUser(int id){

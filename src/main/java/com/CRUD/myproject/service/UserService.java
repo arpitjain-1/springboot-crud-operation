@@ -1,48 +1,44 @@
+// service/UserService.java
 package com.CRUD.myproject.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.stereotype.Service;
 import com.CRUD.myproject.model.User;
+import com.CRUD.myproject.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
 
-    private List<User> userList = new ArrayList<>();
+    @Autowired
+    private UserRepository repo;
 
-    UserService(){
-        User user = new User(0, "Arpit", "a@a.com");
-        userList.add(user);
+    public List<User> getAllUser() {
+        return repo.findAll();
     }
 
-    public List<User> getAllUser(){
-        return userList;
+    public User createUser(User user) {
+        return repo.save(user);
     }
 
-    public User createUser(User user){
-        int index = user.getId();
-        while (userList.size() <= index) {
-            userList.add(null);
+    public User getCurrentUser(int id) {
+        return repo.findById((long) id).orElse(null);
+    }
+
+    public User updateCurrentUser(int id, User user) {
+        if (repo.existsById((long) id)) {
+            user.setId(id); // ensure the ID is set for update
+            return repo.save(user);
         }
-
-        userList.set(index, user);
-        return user;
+        return null;
     }
 
-
-    public User getCurrentUser(int id){
-        User u = userList.get(id);
-        return u;
-    }
-
-    public User updateCurrentUser(int id, User user){
-        userList.set(id, user);
-        return user;
-    }
-
-    public boolean deleteCurrentUser(int id){
-        userList.remove(id);
-        return true;
+    public boolean deleteCurrentUser(Long id) {
+        if (repo.existsById(id)) {
+            repo.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }

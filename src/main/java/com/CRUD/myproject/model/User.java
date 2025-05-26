@@ -1,22 +1,31 @@
 package com.CRUD.myproject.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "\"user\"") 
 public class User {
-    private int id;
+    @Id
+    private Long id;
     private String name;
     private String email;
 
-    public User(int id, String name, String email){
+    public User() {}
+
+    public User(Long id, String name, String email){
         this.id = id;
         this.name = name;
         this.email = email;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(int id2) {
+        this.id = (long) id2;
     }
 
     public String getName() {
